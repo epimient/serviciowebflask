@@ -5,6 +5,10 @@ app = Flask(__name__)
 
 usuarios = []
 
+@app.route('/')
+def index():
+    return "Bienvenido a la API de usuarios"
+
 #Operación CREATE
 @app.route('/usuarios', methods=['POST'])
 def crear_usuario():
