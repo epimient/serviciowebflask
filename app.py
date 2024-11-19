@@ -1,13 +1,55 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template_string
 
 app = Flask(__name__)
 
 
 usuarios = []
 
+# Página HTML para mostrar los usuarios
 @app.route('/')
 def index():
-    return "Bienvenido a la API de usuarios"
+    plantilla_html = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Usuarios</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f2f2f2; }
+            h1 { color: #333; }
+            h2 { color: #333; }
+            .container { max-width: 800px; margin: auto; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Bienvenidos a la API</h1>
+            <h2>Lista de Usuarios</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{ usuario.id }}</td>
+                        <td>{{ usuario.nombre }}</td>
+                        <td>{{ usuario.email }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+    </html>
+    """
+    return render_template_string(plantilla_html, usuarios=usuarios)
 
 #Operación CREATE
 @app.route('/usuarios', methods=['POST'])
